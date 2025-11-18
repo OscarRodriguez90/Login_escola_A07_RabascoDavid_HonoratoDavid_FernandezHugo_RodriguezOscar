@@ -19,15 +19,15 @@
             <div class="btns_col">
                 <form action="./../validations/php/validation_login.php" method="POST">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required onblur="validarUsername()">
+                    <input type="text" id="username" name="username" required">
                     <p id=username-error></p>
                     <br><br>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required onblur="validarEmail()">
+                    <input type="email" id="email" name="email" required">
                     <p id=email-error></p>
                     <br><br>
                     <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required onblur="validarPassword()">
+                    <input type="password" id="password" name="password" required">
                     <p id=password-error></p>
                     <br><br>
                     <div class="d-grid mb-3">
