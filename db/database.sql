@@ -1,43 +1,97 @@
-Drop database if exists db_escola;
-create database db_escola;
+DROP DATABASE IF EXISTS instituto;
+CREATE DATABASE instituto;
+USE instituto;
 
-use db_escola;
+-- Tabla de roles: administrador, profesor, alumno
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE NOT NULL
+) ENGINE=InnoDB;
 
--- Tabla de administradores
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(100) UNIQUE NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
-  full_name VARCHAR(200),
-  rol enum('admin', 'teacher', 'student') NOT NULL DEFAULT 'teacher',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
+-- Tabla de usuarios
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rol_id INT NOT NULL,
+    usuario VARCHAR(100) UNIQUE NOT NULL,
+    contraseña VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(150) NOT NULL,
+    email VARCHAR(200) UNIQUE NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (rol_id) REFERENCES roles(id)
+) ENGINE=InnoDB;
 
--- Tabla de alumnos
-CREATE TABLE students (
-  id SERIAL PRIMARY KEY,
-  first_name VARCHAR(100) NOT NULL,
-  last_name VARCHAR(100) NOT NULL,
-  birth_date DATE,
-  email VARCHAR(200) UNIQUE,
-  class VARCHAR(50), -- ej.: 1A, 2B
-  extra JSONB, -- campo flexible para datos adicionales
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
+-- Etapas educativas
+CREATE TABLE etapas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+) ENGINE=InnoDB;
 
--- Tabla de asignaturas
-CREATE TABLE subjects (
-  id SERIAL PRIMARY KEY,
-  code VARCHAR(50) UNIQUE NOT NULL,
-  name VARCHAR(200) NOT NULL
-);
+-- Cursos dentro de cada etapa
+CREATE TABLE cursos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    etapa_id INT NOT NULL,
+    nivel VARCHAR(50) NOT NULL,
+    FOREIGN KEY (etapa_id) REFERENCES etapas(id)
+) ENGINE=InnoDB;
 
--- Tabla de notas
-CREATE TABLE grades (
-  id SERIAL PRIMARY KEY,
-  student_id INTEGER NOT NULL REFERENCES students(id) ON DELETE CASCADE,
-  subject_id INTEGER NOT NULL REFERENCES subjects(id) ON DELETE RESTRICT,
-  grade NUMERIC(5,2) NOT NULL CHECK (grade >= 0 AND grade <= 10),
-  date_entered TIMESTAMP WITH TIME ZONE DEFAULT now(),
-  UNIQUE(student_id, subject_id) -- si se desea sólo una nota por alumno/asignatura
-);
+-- Grupos por curso
+CREATE TABLE grupos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    curso_id INT NOT NULL,
+    nombre VARCHAR(10) NOT NULL,
+    FOREIGN KEY (curso_id) REFERENCES cursos(id)
+) ENGINE=InnoDB;
+
+-- Asignaturas
+CREATE TABLE asignaturas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(200) NOT NULL,
+    etapa_id INT NOT NULL,
+    FOREIGN KEY (etapa_id) REFERENCES etapas(id)
+) ENGINE=InnoDB;
+
+-- Evaluaciones (se crea antes para usar en notas)
+CREATE TABLE evaluaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    orden INT NOT NULL,
+    porcentaje DECIMAL(5,2) NULL,
+    visible_boletin BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB;
+
+-- Matrículas
+CREATE TABLE matriculas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    grupo_id INT NOT NULL,
+    año_academico VARCHAR(9) NOT NULL,
+    UNIQUE(usuario_id, grupo_id, año_academico),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (grupo_id) REFERENCES grupos(id)
+) ENGINE=InnoDB;
+
+-- Relación profesor -> asignatura -> grupo
+CREATE TABLE asignaciones_profesores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    profesor_id INT NOT NULL,
+    asignatura_id INT NOT NULL,
+    grupo_id INT NOT NULL,
+    año_academico VARCHAR(9) NOT NULL,
+    FOREIGN KEY (profesor_id) REFERENCES usuarios(id),
+    FOREIGN KEY (asignatura_id) REFERENCES asignaturas(id),
+    FOREIGN KEY (grupo_id) REFERENCES grupos(id)
+) ENGINE=InnoDB;
+
+-- Notas
+CREATE TABLE notas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    matricula_id INT NOT NULL,
+    asignatura_id INT NOT NULL,
+    calificacion DECIMAL(5,2),
+    evaluacion_id INT NOT NULL,
+    FOREIGN KEY (matricula_id) REFERENCES matriculas(id),
+    FOREIGN KEY (asignatura_id) REFERENCES asignaturas(id),
+    FOREIGN KEY (evaluacion_id) REFERENCES evaluaciones(id)
+) ENGINE=InnoDB;
