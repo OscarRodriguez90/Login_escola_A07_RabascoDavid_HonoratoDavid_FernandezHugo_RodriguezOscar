@@ -115,7 +115,59 @@ html, body {
     letter-spacing: 0.03em;
 }
 
+/* Página Home */
 
+#home_body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.main_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: 60px; 
+}
+
+.logo_img {
+    height: 50px;
+    width: auto;
+}
+
+.user_info {
+    text-align: center;
+    font-size: 1em;
+    font-weight: 400;
+}
+
+.username {
+    color: #555;
+}
+
+.logout_btn {
+    background-color: #e0e0e0;
+    color: #333; 
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.logout_btn:hover {
+    background-color: #d1d1d1;
+}
+
+main {
+    padding: 20px;
+}
 
 @media (max-width: 900px) {
     .container {
