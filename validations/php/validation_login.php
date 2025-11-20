@@ -8,7 +8,9 @@ if (filter_has_var(INPUT_POST, 'login')) {
 
     include_once('../../db/conexion.php');
     
-    $sql2 = "SELECT id_usuario, nombre_usuario, contrasena FROM usuarios WHERE nombre_usuario = '" . $_POST['username'] . "'";
+    $usuario = htmlspecialchars($_POST['username']);
+
+    $sql2 = "SELECT id, usuario, contraseña FROM usuarios WHERE usuario = '" . $usuario . "'";
     $stmt2 = $conn->prepare($sql2);
     $stmt2->execute();
     $login = $stmt2->fetch(PDO::FETCH_ASSOC);
@@ -31,14 +33,14 @@ if (filter_has_var(INPUT_POST, 'login')) {
         exit();
 
     } else {
-
-        if (password_verify($_POST['password'], $login['password'])) {
+//  PENDIENTE HASHEAR CONTRASEÑA
+        if (($_POST['password'] == $login['contraseña'])) {
             
             // Login correcto
             $_SESSION['username'] = $login['username'];
             $_SESSION['id_user'] = $login['id_user'];
 
-            header("Location: ../index.php?Bienvenido");
+            header("Location: ../../pages/index.php?Bienvenido");
             exit();
         
         } else {
