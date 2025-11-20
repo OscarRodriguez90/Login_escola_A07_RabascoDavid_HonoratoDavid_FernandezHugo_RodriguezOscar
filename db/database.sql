@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS instituto;
-CREATE DATABASE instituto;
-USE instituto;
+DROP DATABASE IF EXISTS db_crud_escola_0616_A07;
+CREATE DATABASE db_crud_escola_0616_A07;
+USE db_crud_escola_0616_A07;
 
 -- Tabla de roles: administrador, profesor, alumno
 CREATE TABLE roles (
