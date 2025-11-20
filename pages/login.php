@@ -9,7 +9,7 @@
     <script src="../validations/js/validaciones.js" type="text/javascript" ></script>
 </head>
 <body>
-    <h2 class="text-center">Pagina login</h2>
+    <!-- <h2 class="text-center">Pagina login</h2> -->
     <div class="container">
         <div class="logo_btns_row">
             <div class="logo_col">
@@ -18,14 +18,9 @@
 
             <div class="btns_col">
                 <form action="./../validations/php/validation_login.php" method="POST">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required onblur="validarUsername()">
                     <p id=username-error></p>
-                    <br><br>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required">
-                    <p id=email-error></p>
-                    <br><br>
                     <label for="password">Contraseña:</label>
                     <input type="password" id="password" name="password" required">
                     <p id=password-error></p>
