@@ -169,6 +169,109 @@ main {
     padding: 20px;
 }
 
+.admin-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-title {
+    color: #004791;
+    margin-bottom: 25px;
+}
+
+.user-edit-form {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra más profunda para el formulario */
+    width: 100%;
+    max-width: 800px; /* Limita el ancho del formulario */
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.form-group-main {
+    display: flex;
+    flex-direction: column;
+    width: 50%; /* Ocupa la mitad del ancho en la fila */
+}
+
+.form-group-main.full-width {
+    width: 100%;
+}
+
+.user-edit-form label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.user-edit-form input {
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1em;
+    color: #000;
+}
+
+.user-edit-form input:focus {
+    border-color: #004791;
+    outline: none;
+    background: white;
+}
+
+/* Campos de solo lectura */
+.user-edit-form input[readonly] {
+    background: #eee;
+    color: #555;
+    cursor: default;
+}
+
+/* Contenedor de Botones */
+.button-container {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.save-main-btn,
+.cancel-main-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    margin-left: 15px;
+    transition: opacity 0.2s;
+}
+
+.save-main-btn {
+    background-color: #004791;
+    color: white;
+}
+
+.save-main-btn:hover {
+    opacity: 0.9;
+}
+
+.cancel-main-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+.cancel-main-btn:hover {
+    opacity: 0.9;
+}
+
 @media (max-width: 900px) {
     .container {
         max-width: 100%;
