@@ -14,7 +14,7 @@ CREATE TABLE usuarios (
     rol_id INT NOT NULL,
     usuario VARCHAR(100) UNIQUE NOT NULL,
     contraseña VARCHAR(255) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHA   R(100) NOT NULL,
     apellidos VARCHAR(150) NOT NULL,
     email VARCHAR(200) UNIQUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
