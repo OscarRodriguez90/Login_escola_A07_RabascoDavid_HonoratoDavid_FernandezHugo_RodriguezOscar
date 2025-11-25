@@ -4,9 +4,7 @@ require_once './../db/conexion.php';
 
 
 try {
-    // ...existing code...
-    $resultados = [];
-    $consulta = null;
+    // --- LÓGICA DE ORDENACIÓN ---
     $order = "usuarios.id ASC";
     if (isset($_POST['nombre_asc'])) $order = "usuarios.nombre ASC";
     if (isset($_POST['nombre_desc'])) $order = "usuarios.nombre DESC";
@@ -19,8 +17,20 @@ try {
     if (isset($_POST['año_asc'])) $order = "matriculas.año_academico ASC";
     if (isset($_POST['año_desc'])) $order = "matriculas.año_academico DESC";
 
-    if (isset($_GET['query'])) {
-        $busqueda = $_GET['query'];
+    // --- MANEJO DE LA BÚSQUEDA ---
+    // Usamos el parámetro 'query' de REQUEST para capturar la búsqueda sin importar si se envió por GET o POST
+    $busqueda = $_REQUEST['query'] ?? ''; 
+
+    // Prepara los parámetros de consulta para la tabla (GET)
+    $query_params = !empty($busqueda) ? "&query=" . urlencode($busqueda) : "";
+    
+    $resultados = [];
+    $consulta = null;
+    $total_registros_filtrados = 0;
+
+
+    if (!empty($busqueda)) {
+        // Consulta con FILTRO
         $consulta = $conn->prepare("
             SELECT usuarios.id, usuarios.usuario, usuarios.nombre, usuarios.apellidos, usuarios.email, grupos.nombre AS grupo, matriculas.año_academico
             FROM usuarios
@@ -41,6 +51,7 @@ try {
         $consulta->execute([':busqueda' => '%' . $busqueda . '%']);
         $resultados = $consulta->fetchAll();
 
+        // Contar registros filtrados
         $contador_filtro = $conn->prepare("
             SELECT COUNT(*)
             FROM usuarios
@@ -60,6 +71,7 @@ try {
         $contador_filtro->execute([':busqueda' => '%' . $busqueda . '%']);
         $total_registros_filtrados = $contador_filtro->fetchColumn();
     } else {
+        // Consulta SIN FILTRO
         $consulta = $conn->query("
             SELECT usuarios.id, usuarios.usuario, usuarios.nombre, usuarios.apellidos, usuarios.email, grupos.nombre AS grupo, matriculas.año_academico
             FROM usuarios
@@ -71,90 +83,97 @@ try {
         ");
         $resultados = $consulta->fetchAll();
     }
+    
+    // Contar el total de registros (sin filtro)
     $consulta_total = $conn->query("SELECT COUNT(*) FROM usuarios INNER JOIN roles ON usuarios.rol_id = roles.id WHERE roles.nombre = 'alumno'");
     $registros_totales = $consulta_total->fetchColumn();
+
 } catch (PDOException $e) {
     echo "<div style='color:red;'>¡Error en la consulta!<br>" . $e->getMessage() . "</div>";
 }
 
 ?>
 
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./css/style.css" type="text/css">
-    <title>CRUD ALUMNES</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Alumnos</title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
-<header>
-    <img src="./img/logoextendido.png">
-</header>
 <body class="CRUD">
-    <br><br><br><br>
+    <!-- Header Fijo -->
+    <header class="main_header">
+        <img class="logo_img" src="../img/logo1.png" alt="Logo">
+    </header>
+    
     <div class="contenedor">
-        <br>
-        <div class="create-button">
-            <nav>
-                <div>
-                    <form class="d-flex" role="search" method="GET" action="">
-                        <input class="form-control me-2" type="search" name="query" placeholder="Buscar" aria-label="Buscar">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                        <a class="button_c" href="./crud.php">Eliminar</a>
-                    </form>
-                </div>
-            </nav>
+        <div class="header_crud_row">
+            
+            <div class="create_button"> 
+                <form class="search_form_flex" role="search" method="GET" action="">
 
-        </div>
-        <div class="cambiar-añadir">
-            <div class='image-container' id="cruz">
-                <a href="./formularios/alumne/formcrearAlumne.php">
-                    <img src='./img/square-plus-solid.png' alt='Imagen Default' class='image image-default'>
-                    <img src='./img/square-plus-solid-green.png' alt='Imagen Default' class='image image-hover'>
-                </a>
+                    <input class="search_input" type="search" name="query" placeholder="Buscar" aria-label="Buscar" value="<?= htmlspecialchars($busqueda) ?>">
+                    <button class="search_btn" type="submit">Buscar</button>
+                    <a class="button_c clear_btn" href="./crud.php">Limpiar</a>
+                    <br>
+
+                </form>
             </div>
-            <a class="button_c" name="profes" href="./crud_profes.php">Cambiar a profes</a>
-            <br><br>
-            <?php
 
-                if (isset($_GET['query'])) {
-                    echo "<h3>Total de registros: $total_registros_filtrados</h3>";
-                } else {
-                    echo "<h3>Total de registros:  $registros_totales</h3>";
-                }
+            <div class="cambiar_añadir">
+                <a class="button_c create_btn" href="./form_alumnos.php">Añadir Alumno</a>                
+                <a class="button_c change_role_btn" href="./crud_profes.php">Cambiar a profes</a>
+                
+                <?php
 
-            ?>
+                    if (!empty($busqueda)) {
+                        echo "<h3>Total de registros: $total_registros_filtrados</h3>";
+                    } else {
+                        echo "<h3>Total de registros: $registros_totales</h3>";
+                    }
+
+                ?>
+            </div>
         </div>
     </div>
-    <div class="container">
-        <table>
-            <form action="" method="post">
+    
+    <div class="table_responsive_container">
+        
+        <form method="POST" action="?query=<?= urlencode($busqueda) ?>">
+            <table>
                 <thead class="thead">
                     <tr>
-                        <th><input type="submit" value="⬆" id="flecha_izquierda" name="usuario_asc">Usuario<input type="submit" value="⬇" id="flecha_derecha" name="usuario_desc"></th>
-                        <th><input type="submit" value="⬆" id="flecha_izquierda" name="nombre_asc">Nombre<input type="submit" value="⬇" id="flecha_derecha" name="nombre_desc"></th>
+                        
+                        <th><input type="submit" value="⬆" name="usuario_asc">Usuario<input type="submit" value="⬇" name="usuario_desc"></th>
+                        <th><input type="submit" value="⬆" name="nombre_asc">Nombre<input type="submit" value="⬇" name="nombre_desc"></th>
                         <th>Apellidos</th>
-                        <th><input type="submit" value="⬆" id="flecha_izquierda" name="email_asc">Email<input type="submit" value="⬇" id="flecha_derecha" name="email_desc"></th>
-                        <th><input type="submit" value="⬆" id="flecha_izquierda" name="grupo_asc">Grupo<input type="submit" value="⬇" id="flecha_derecha" name="grupo_desc"></th>
-                        <th><input type="submit" value="⬆" id="flecha_izquierda" name="año_asc">Año<input type="submit" value="⬇" id="flecha_derecha" name="año_desc"></th>
+                        <th><input type="submit" value="⬆" name="email_asc">Email<input type="submit" value="⬇" name="email_desc"></th>
+                        <th><input type="submit" value="⬆" name="grupo_asc">Grupo<input type="submit" value="⬇" name="grupo_desc"></th>
+                        <th><input type="submit" value="⬆" name="año_asc">Año<input type="submit" value="⬇" name="año_desc"></th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-            </form>
-            <tbody>
-                <?php foreach ($resultados as $columna): ?>
-                    <tr>
-                        <td ><?= htmlspecialchars($columna['usuario']) ?></td>
-                        <td ><?= htmlspecialchars($columna['nombre']) ?></td>
-                        <td ><?= htmlspecialchars($columna['apellidos']) ?></td>
-                        <td ><?= htmlspecialchars($columna['email']) ?></td>
-                        <td ><?= htmlspecialchars($columna['grupo'] ?? '') ?></td>
-                        <td ><?= htmlspecialchars($columna['año_academico'] ?? '') ?></td>
-                        <td>
-                            <button>Eliminar</button>  
-                            <button>Editar</button>  
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table> 
+                <tbody>
+                    <?php foreach ($resultados as $columna): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($columna['usuario']) ?></td>
+                            <td><?= htmlspecialchars($columna['nombre']) ?></td>
+                            <td><?= htmlspecialchars($columna['apellidos']) ?></td>
+                            <td><?= htmlspecialchars($columna['email']) ?></td>
+                            <td><?= htmlspecialchars($columna['grupo'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($columna['año_academico'] ?? '') ?></td>
+                            <td>
+                                <!-- Se asume que estos botones se enlazarán a formularios o scripts JS para la acción -->
+                                <button class="delete_btn">Eliminar</button>  
+                                <button class="edit_btn">Editar</button>  
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </form>
     </div>
 </body>
+</html>
