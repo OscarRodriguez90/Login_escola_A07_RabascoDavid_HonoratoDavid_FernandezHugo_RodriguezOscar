@@ -12,17 +12,17 @@
     <div class="container">
         <div class="logo_btns_row">
             <div class="logo_col">
-                <img src="./../img/logo1.png" alt="logo" class="logo">
+                <img src="./img/logo1.png" alt="logo" class="logo">
             </div>
             <div class="btns_col">
                 <h3 class="mb-4 text-center">Bienvenido</h3>
-                <form action="./login.php" method="POST" id="formProducto">
+                <form action="./pages/login.php" method="POST" id="formProducto">
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>
                 <br>
-                <form action="./registro.php" method="POST" id="formProducto">
+                <form action="./pages/registro.php" method="POST" id="formProducto">
                     <div class="d-grid">
                         <button type="submit" class="btn btn-secondary">Registrate</button>
                     </div>

@@ -138,3 +138,107 @@ INSERT INTO usuarios (rol_id, usuario, contraseña, nombre, apellidos, email) VA
 (3, 'alumno29', 'qazQAZ123', 'Clara', 'Jiménez Ramos', 'clara.jimenez@escola.com'),
 (3, 'alumno30', 'qazQAZ123', 'Pablo', 'Moreno Ruiz', 'pablo.moreno@escola.com'),
 (3, 'alumno31', 'qazQAZ123', 'Silvia', 'Navarro Pérez', 'silvia.navarro@escola.com');
+
+/* ============================
+   ETAPAS EDUCATIVAS
+============================ */
+INSERT INTO etapas (nombre) VALUES
+('Primaria'),
+('Secundaria'),
+('Bachillerato');
+
+/* ============================
+   CURSOS (Ejemplo por etapa)
+============================ */
+INSERT INTO cursos (etapa_id, nivel) VALUES
+(1, '5º Primaria'),
+(1, '6º Primaria'),
+(2, '1º ESO'),
+(2, '2º ESO'),
+(2, '3º ESO'),
+(2, '4º ESO'),
+(3, '1º Bachillerato'),
+(3, '2º Bachillerato');
+
+/* ============================
+   GRUPOS
+============================ */
+INSERT INTO grupos (curso_id, nombre) VALUES
+(3, 'A'),
+(3, 'B'),
+(4, 'A'),
+(4, 'B'),
+(5, 'A'),
+(5, 'B');
+
+/* ============================
+   ASIGNATURAS
+============================ */
+INSERT INTO asignaturas (nombre, etapa_id) VALUES
+('Matemáticas', 2),
+('Lengua Castellana', 2),
+('Inglés', 2),
+('Biología', 2),
+('Geografía e Historia', 2),
+('Física y Química', 2);
+
+/* ============================
+   EVALUACIONES
+============================ */
+INSERT INTO evaluaciones (nombre, orden, porcentaje, visible_boletin) VALUES
+('1ª Evaluación', 1, 33.33, TRUE),
+('2ª Evaluación', 2, 33.33, TRUE),
+('3ª Evaluación', 3, 33.33, TRUE),
+('Ordinaria', 4, NULL, TRUE);
+
+/* ============================
+   MATRÍCULAS (20 alumnos en 1º ESO A)
+   grupo_id = 1 (según arriba)
+============================ */
+INSERT INTO matriculas (usuario_id, grupo_id, año_academico) VALUES
+(3, 1, '2024-2025'),
+(4, 1, '2024-2025'),
+(5, 1, '2024-2025'),
+(6, 1, '2024-2025'),
+(7, 1, '2024-2025'),
+(8, 1, '2024-2025'),
+(9, 1, '2024-2025'),
+(10, 1, '2024-2025'),
+(11, 1, '2024-2025'),
+(12, 1, '2024-2025'),
+(13, 1, '2024-2025'),
+(14, 1, '2024-2025'),
+(15, 1, '2024-2025'),
+(16, 1, '2024-2025'),
+(17, 1, '2024-2025'),
+(18, 1, '2024-2025'),
+(19, 1, '2024-2025'),
+(20, 1, '2024-2025'),
+(21, 1, '2024-2025'),
+(22, 1, '2024-2025');
+
+/* ============================
+   ASIGNACIÓN PROFESOR → ASIGNATURA → GRUPO
+   Asignamos al profesor `profe01` (id = 2)
+============================ */
+INSERT INTO asignaciones_profesores (profesor_id, asignatura_id, grupo_id, año_academico) VALUES
+(2, 1, 1, '2024-2025'), -- Matemáticas
+(2, 2, 1, '2024-2025'), -- Lengua
+(2, 3, 1, '2024-2025'), -- Inglés
+(2, 4, 1, '2024-2025'), -- Biología
+(2, 5, 1, '2024-2025'), -- Geografía
+(2, 6, 1, '2024-2025'); -- FyQ
+
+/* ============================
+   NOTAS (solo ejemplos básicos)
+============================ */
+INSERT INTO notas (matricula_id, asignatura_id, calificacion, evaluacion_id) VALUES
+(1, 1, 7.5, 1),
+(1, 2, 8.0, 1),
+(1, 3, 6.2, 1),
+(2, 1, 5.0, 1),
+(2, 2, 4.5, 1),
+(2, 3, 6.8, 1),
+(3, 1, 9.0, 1),
+(3, 2, 8.7, 1),
+(3, 3, 7.4, 1);
