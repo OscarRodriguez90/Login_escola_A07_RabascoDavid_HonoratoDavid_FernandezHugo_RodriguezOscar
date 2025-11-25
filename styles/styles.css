@@ -16,6 +16,12 @@ html, body {
     margin: 0 auto;
 }
 
+#btn-usuario-tabla {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
 
 .logo_btns_row {
     display: flex;
