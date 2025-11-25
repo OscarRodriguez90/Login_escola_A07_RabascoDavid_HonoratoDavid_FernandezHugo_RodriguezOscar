@@ -31,18 +31,18 @@ if (filter_has_var(INPUT_POST, 'register')) {
 
         $_SESSION['username'] = $_POST['username'];
         $_SESSION['email'] = $_POST['email'];
-        $_SESSION['password'] = $_POST['password'];
 
         $username = $_SESSION['username'];
         $email = $_SESSION['email'];
-        $passwordhash = password_hash($_SESSION['password'], PASSWORD_DEFAULT);
+        $passwordhash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
         try {
 
-            $sql = "INSERT INTO usuarios (nombre_usuario, correo, contrasena) VALUES (:username, :email, :passwordhash)";
+            $sql = "INSERT INTO usuarios (rol_id, usuario, email, contraseña) VALUES (:rol, :username, :email, :passwordhash)";
             $stmt = $conn->prepare($sql);
 
             $stmt->execute([
+                ':rol' => 3, //Por defecto alumno
                 ':username' => $username,
                 ':email' => $email,
                 ':passwordhash' => $passwordhash
@@ -53,8 +53,8 @@ if (filter_has_var(INPUT_POST, 'register')) {
             exit();
 
         } catch (PDOException $e) {
-
-            echo "Error al insertar el usuario";
+            //Mostrar error
+            echo "Error: " . $e->getMessage();
             die();
 
         }

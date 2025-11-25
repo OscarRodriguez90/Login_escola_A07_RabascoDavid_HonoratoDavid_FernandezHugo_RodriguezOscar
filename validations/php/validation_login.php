@@ -40,7 +40,7 @@ if (filter_has_var(INPUT_POST, 'login')) {
             $_SESSION['username'] = $login['username'];
             $_SESSION['id_user'] = $login['id_user'];
 
-            header("Location: ../../pages/index.php?Bienvenido");
+            header("Location: ../../pages/home.php?Bienvenido");
             exit();
         
         } else {
