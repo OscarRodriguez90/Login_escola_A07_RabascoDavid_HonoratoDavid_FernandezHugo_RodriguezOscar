@@ -1,59 +1,62 @@
 <?php
-
-
 if (filter_has_var(INPUT_POST, 'login')) {
 
-
     session_start();
-
     include_once('../../db/conexion.php');
-    
-    $usuario = htmlspecialchars($_POST['username']);
 
-    $sql2 = "SELECT id, usuario, contraseña FROM usuarios WHERE usuario = '" . $usuario . "'";
-    $stmt2 = $conn->prepare($sql2);
-    $stmt2->execute();
-    $login = $stmt2->fetch(PDO::FETCH_ASSOC);
-    // var_dump($login);
-    // die();
+    // Sanear entrada
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-    if (!$login) {
-        
-        header("Location: ../../pages/login.php?error=BBDD");
-        exit();
-
-    }  elseif ($_POST['username'] == "" || $_POST['password'] == "") {
-
+    // Validaciones básicas
+    if ($username === '' || $password === '') {
         header("Location: ../../pages/login.php?error=vacio");
         exit();
+    }
 
-    } elseif (strlen($_POST['username']) > 15 || strlen($_POST['password']) > 15){
-
+    if (strlen($username) > 15 || strlen($password) > 15) {
         header("Location: ../../pages/login.php?error=largo");
         exit();
+    }
 
-    } else {
-//  PENDIENTE HASHEAR CONTRASEÑA
-        if (($_POST['password'] == $login['contraseña'])) {
-            
+    try {
+        // Prepared statement seguro
+        $sql = "SELECT id, usuario, contraseña FROM usuarios WHERE usuario = :username LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $login = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$login) {
+            // Usuario no encontrado
+            header("Location: ../../pages/login.php?error=usuario");
+            exit();
+        }
+
+        // Verificar contraseña usando password_verify
+        if (password_verify($password, $login['contraseña'])) {
             // Login correcto
-            $_SESSION['username'] = $login['username'];
-            $_SESSION['id_user'] = $login['id_user'];
+            $_SESSION['username'] = $login['usuario'];
+            $_SESSION['id_user'] = (int)$login['id'];
 
             header("Location: ../../pages/home.php?Bienvenido");
             exit();
-        
         } else {
-
             // Contraseña incorrecta
             header("Location: ../../pages/login.php?error=pass");
             exit();
         }
+
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+            die();
+        // error_log("Error login: " . $e->getMessage());
+        // header("Location: ../../pages/login.php?error=bd");
+        // exit();
     }
 
-
 } else {
-    
     header("Location: ../index.php?error=NoLogin");
     exit();
-} 
+}
