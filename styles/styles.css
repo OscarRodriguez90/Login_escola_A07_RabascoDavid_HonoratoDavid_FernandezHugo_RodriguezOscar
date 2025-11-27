@@ -435,6 +435,15 @@ tbody td:last-child {
     background-color: #003a74;
 }
 
+/* Registro.php */
+
+.input-error {
+    color: #d9534f;
+    font-size: 0.9em;
+    margin-top: -0.3rem;
+    margin-bottom: 0.5rem;
+    min-height: 18px; /* Para evitar salto de contenido */
+}
 
 /* CRUD.php */
 

@@ -1,136 +1,111 @@
-// ==========================
-// Validaciones del lado del cliente
-// ==========================
+// Asignación de eventos
+document.getElementById("username").onblur = validarNombre;
+document.getElementById("email").onblur = validarEmail;
+document.getElementById("password").onblur = validarPassword;
+document.getElementById("confirma_password").onblur = validarConfirmacion;
 
-// Validar email
-function validarEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
+document.getElementById("registerForm").onsubmit = function (event) {
+    
+    validarNombre();
+    validarEmail();
+    validarPassword();
+    validarConfirmacion();
 
-// Validar longitud mínima
-function validarLongitud(texto, minimo) {
-    return texto.length >= minimo;
-}
+    // Obtenemos los errores
+    let userError = document.getElementById("usernameError").innerText;
+    let emailError = document.getElementById("emailError").innerText;
+    let passError = document.getElementById("passwordError").innerText;
+    let confirmError = document.getElementById("confirmError").innerText;
 
-// Mostrar error debajo del input
-function mostrarError(input, mensaje) {
-    const errorBox = document.getElementById(input.id + '-error');
-    if (mensaje) {
-        errorBox.textContent = mensaje;
-        errorBox.style.color = '#e74c3c';
-    } else {
-        errorBox.textContent = '';
-    }
-}
-
-// ==========================
-// Validaciones específicas de cada campo
-// ==========================
-function validarUsername() {
-    const input = document.getElementById('username');
-    const valor = input.value.trim();
-    if (valor === '') {
-        mostrarError(input, 'El nombre de usuario no puede estar vacío');
-        return false;
-    } else if (!/^[a-zA-Z0-9]+$/.test(valor)) {
-        mostrarError(input, 'Solo se permiten letras y números');
-        return false;
-    } else if (!validarLongitud(valor, 3)) {
-        mostrarError(input, 'Debe tener al menos 3 caracteres');
-        return false;
-    } else {
-        mostrarError(input, '');
-        return true;
-    }
-}
-
-function validarEmailInput() {
-    const input = document.getElementById('email');
-    const valor = input.value.trim();
-    if (valor === '') {
-        mostrarError(input, 'El email no puede estar vacío');
-        return false;
-    } else if (!validarEmail(valor)) {
-        mostrarError(input, 'Formato de email inválido');
-        return false;
-    } else {
-        mostrarError(input, '');
-        return true;
-    }
-}
-
-function validarPasswordInput() {
-    const input = document.getElementById('password');
-    const valor = input.value;
-    if (valor === '') {
-        mostrarError(input, 'La contraseña no puede estar vacía');
-        return false;
-    } else if (!validarLongitud(valor, 6)) {
-        mostrarError(input, 'Debe tener al menos 6 caracteres');
-        return false;
-    } else {
-        mostrarError(input, '');
-        return true;
-    }
-}
-
-function validarConfirmPassword() {
-    const input = document.getElementById('confirm');
-    const valor = input.value;
-    const password = document.getElementById('password').value;
-    if (valor === '') {
-        mostrarError(input, 'Confirme su contraseña');
-        return false;
-    } else if (valor !== password) {
-        mostrarError(input, 'Las contraseñas no coinciden');
-        return false;
-    } else {
-        mostrarError(input, '');
-        return true;
-    }
-}
-
-// ==========================
-// Validación completa del formulario
-// ==========================
-function validarFormularioRegistro(event) {
-    const validoUsername = validarUsername();
-    const validoEmail = validarEmailInput();
-    const validoPassword = validarPasswordInput();
-    const validoConfirm = validarConfirmPassword();
-
-    if (!validoUsername || !validoEmail || !validoPassword || !validoConfirm) {
+    // Si hay errores, bloqueamos el envío
+    if (userError !== "" || emailError !== "" || passError !== "" || confirmError !== "") {
+        let box = document.getElementById("clientErrorRegister");
         event.preventDefault();
-        return false;
+        box.classList.add("active");
+        box.innerText = "Por favor corrige los errores antes de continuar.";
     }
-    return true;
+};
+
+
+// ---------------- VALIDACIONES ----------------
+
+// USERNAME
+function validarNombre() {
+    let input = document.getElementById("username");
+    let error = document.getElementById("usernameError");
+    let valor = input.value.trim();
+    let regex = /^[a-zA-Z0-9]+$/;
+
+    if (valor === "") {
+        error.innerText = "El nombre de usuario no puede estar vacío";
+        input.classList.add("invalid");
+    } 
+    else if (valor.length > 15) {
+        error.innerText = "Máximo 15 caracteres";
+        input.classList.add("invalid");
+    }
+    else if (!regex.test(valor)) {
+        error.innerText = "Solo letras y números";
+        input.classList.add("invalid");
+    } else {
+        error.innerText = "";
+        input.classList.remove("invalid");
+    }
 }
 
-// ==========================
-// Eventos de blur para validación en tiempo real
-// ==========================
-document.getElementById('username').addEventListener('blur', validarUsername);
-document.getElementById('email').addEventListener('blur', validarEmailInput);
-document.getElementById('password').addEventListener('blur', validarPasswordInput);
-document.getElementById('confirm').addEventListener('blur', validarConfirmPassword);
 
-// ==========================
-// Prevenir envío duplicado
-// ==========================
-let formularioEnviado = false;
-document.querySelector('form').addEventListener('submit', function (event) {
-    if (!validarFormularioRegistro(event)) return false;
+// EMAIL
+function validarEmail() {
+    let input = document.getElementById("email");
+    let error = document.getElementById("emailError");
+    let valor = input.value.trim();
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (formularioEnviado) {
-        event.preventDefault();
-        return false;
+    if (valor === "") {
+        error.innerText = "El email no puede estar vacío";
+        input.classList.add("invalid");
     }
-
-    formularioEnviado = true;
-    const botonEnviar = this.querySelector('button[type="submit"]');
-    if (botonEnviar) {
-        botonEnviar.disabled = true;
-        botonEnviar.textContent = 'Enviando...';
+    else if (!regex.test(valor)) {
+        error.innerText = "Formato de email no válido";
+        input.classList.add("invalid");
+    } else {
+        error.innerText = "";
+        input.classList.remove("invalid");
     }
-});
+}
+
+
+// PASSWORD
+function validarPassword() {
+    let input = document.getElementById("password");
+    let error = document.getElementById("passwordError");
+    let valor = input.value;
+
+    if (valor === "") {
+        error.innerText = "La contraseña no puede estar vacía";
+        input.classList.add("invalid");
+    }
+    else if (valor.length > 15) {
+        error.innerText = "Máximo 15 caracteres";
+        input.classList.add("invalid");
+    } else {
+        error.innerText = "";
+        input.classList.remove("invalid");
+    }
+}
+
+
+// CONFIRM PASSWORD
+function validarConfirmacion() {
+    let pass = document.getElementById("password").value;
+    let confirm = document.getElementById("confirma_password");
+    let error = document.getElementById("confirmError");
+
+    if (confirm.value !== pass) {
+        error.innerText = "Las contraseñas no coinciden";
+        confirm.classList.add("invalid");
+    } else {
+        error.innerText = "";
+        confirm.classList.remove("invalid");
+    }
+}
