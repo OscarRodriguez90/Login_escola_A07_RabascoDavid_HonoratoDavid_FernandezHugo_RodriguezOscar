@@ -120,12 +120,8 @@
         </div>
 
     </div>
-<<<<<<< HEAD
 </div>
 
 <script src="../validations/js/validacion_registro.js"></script>
-=======
-     <script src="../validations/js/validaciones.js" type="text/javascript"></script>
->>>>>>> cff11e16f0a6cceefe572ca26b078160234d0666
 </body>
 </html>
