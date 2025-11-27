@@ -1,8 +1,16 @@
-//Eventos para validaciones
-document.getElementById('username').onblur = validarUsername;
-document.getElementById('email').onblur = validarEmail;
-document.getElementById('password').onblur = validarPassword;
 
+window.onload = function() {
+    //Eventos para validaciones
+    if (document.getElementById('username')) {
+        document.getElementById('username').onblur = validarUsername;
+    }
+    if (document.getElementById('email')) {
+        document.getElementById('email').onblur = validarEmail;
+    }
+    if (document.getElementById('password')) {
+        document.getElementById('password').onblur = validarPassword;
+    }
+}
 
 function validarUsername() {
     const username = document.getElementById('username').value.trim();

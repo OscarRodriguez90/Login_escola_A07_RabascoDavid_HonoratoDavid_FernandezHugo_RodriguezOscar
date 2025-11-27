@@ -10,14 +10,10 @@ if (filter_has_var(INPUT_POST, 'login')) {
 
     // Validaciones básicas
     if ($username === '' || $password === '') {
-        header("Location: ../../pages/login.php?error=vacio");
+        header("Location: ../../pages/login.php?error=campos_vacios&username=" . urlencode($username));
         exit();
     }
 
-    if (strlen($username) > 15 || strlen($password) > 15) {
-        header("Location: ../../pages/login.php?error=largo");
-        exit();
-    }
 
     try {
         // Prepared statement seguro
@@ -30,7 +26,7 @@ if (filter_has_var(INPUT_POST, 'login')) {
 
         if (!$login) {
             // Usuario no encontrado
-            header("Location: ../../pages/login.php?error=usuario");
+            header("Location: ../../pages/login.php?error=usuario&username=" . urlencode($username));
             exit();
         }
 
@@ -40,11 +36,11 @@ if (filter_has_var(INPUT_POST, 'login')) {
             $_SESSION['username'] = $login['usuario'];
             $_SESSION['id_user'] = (int)$login['id'];
 
-            header("Location: ../../pages/crud.php");
+            header("Location: ../../pages/home.php");
             exit();
         } else {
             // Contraseña incorrecta
-            header("Location: ../../pages/login.php?error=pass");
+            header("Location: ../../pages/login.php?error=pass&username=" . urlencode($username));
             exit();
         }
 
