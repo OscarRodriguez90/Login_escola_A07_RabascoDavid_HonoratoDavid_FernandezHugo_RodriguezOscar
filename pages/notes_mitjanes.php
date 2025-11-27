@@ -86,7 +86,7 @@
                     $best_subject = $avg_subjects[0]; // Com que està ordenat DESC, la primera és la millor
                 }
 
-                // 2. Top 3 Alumnes (Mitjana Global)
+                // 2. Top 3 Alumnes (Mitjana Global) - Mantingut per sol·licitud prèvia
                 $sql_top3 = "SELECT u.nombre, u.apellidos, AVG(n.calificacion) as mitjana 
                              FROM notas n 
                              JOIN matriculas m ON n.matricula_id = m.id 
@@ -97,16 +97,19 @@
                 $stmt_top3 = $conn->query($sql_top3);
                 $top3_students = $stmt_top3->fetchAll(PDO::FETCH_ASSOC);
 
-                // 3. Millors Alumnes per Assignatura
+                // 3. Millors Alumnes per Assignatura (Unic per assignatura)
+                // Requeriment: "si 2 alumnes han tret la millor nota en una assignatura només ens quedem amb el primer"
                 $sql_best_per_subj = "SELECT a.nombre as asignatura, u.nombre, u.apellidos, n.calificacion 
                                       FROM notas n 
                                       JOIN asignaturas a ON n.asignatura_id = a.id 
                                       JOIN matriculas m ON n.matricula_id = m.id 
                                       JOIN usuarios u ON m.usuario_id = u.id 
-                                      WHERE (n.asignatura_id, n.calificacion) IN (
-                                          SELECT asignatura_id, MAX(calificacion) 
-                                          FROM notas 
-                                          GROUP BY asignatura_id
+                                      WHERE n.id = (
+                                          SELECT n2.id 
+                                          FROM notas n2 
+                                          WHERE n2.asignatura_id = n.asignatura_id 
+                                          ORDER BY n2.calificacion DESC, n2.id ASC 
+                                          LIMIT 1
                                       ) 
                                       ORDER BY a.nombre";
                 $stmt_best_per_subj = $conn->query($sql_best_per_subj);

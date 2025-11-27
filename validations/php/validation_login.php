@@ -40,7 +40,7 @@ if (filter_has_var(INPUT_POST, 'login')) {
             $_SESSION['username'] = $login['usuario'];
             $_SESSION['id_user'] = (int)$login['id'];
 
-            header("Location: ../../pages/home.php?Bienvenido");
+            header("Location: ../../pages/home.php");
             exit();
         } else {
             // Contraseña incorrecta

@@ -116,15 +116,14 @@ try {
 
                     <input class="search_input" type="search" name="query" placeholder="Buscar" aria-label="Buscar" value="<?= htmlspecialchars($busqueda) ?>">
                     <button class="search_btn" type="submit">Buscar</button>
-                    <a class="button_c clear_btn" href="./crud.php">Limpiar</a>
+                    <a class="button_c clear_btn" href="./home.php">Limpiar</a>
                     <br>
 
                 </form>
             </div>
 
             <div class="cambiar_añadir">
-                <a class="button_c create_btn" href="./form_alumnos.php">Añadir Alumno</a>                
-                <a class="button_c change_role_btn" href="./crud_profes.php">Cambiar a profes</a>
+                <a class="button_c create_btn" href="./form_alumnos.php">Añadir Alumno</a>
                 
                 <?php
 
