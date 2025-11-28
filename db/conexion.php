@@ -4,7 +4,7 @@
     $dbpassword = "";
     $dbname = "db_crud_escola_0616_a07";
 
-    try{
+    try{  //QUITAR PORT 3307
         $conn = new PDO("mysql:host=$servername;dbname=$dbname",$dbusername, $dbpassword);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }catch (PDOException $e){

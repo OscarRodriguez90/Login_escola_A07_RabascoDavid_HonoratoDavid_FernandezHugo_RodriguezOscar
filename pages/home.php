@@ -124,7 +124,7 @@ try {
             </div>
 
             <div class="cambiar_añadir">
-                <a class="button_c create_btn" href="./form_alumnos.php">Añadir Alumno</a>
+                <a class="button_c create_btn" href="./form_crear.php">Añadir Alumno</a>
                 
                 <?php
 
@@ -172,7 +172,7 @@ try {
                         <td><?= htmlspecialchars($columna['año_academico'] ?? '') ?></td>
                         <td>
                             <a href="../processes/eliminar.php?id=<?= $columna['id'] ?>" class="delete_btn">Eliminar</a>
-                            <a href="form_users.php?id=<?= $columna['id'] ?>" class="edit_btn">Editar</a>
+                            <a href="form_modify.php?id=<?= $columna['id'] ?>" class="edit_btn">Editar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
