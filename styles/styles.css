@@ -454,7 +454,8 @@ tbody td:last-child {
     font-size: 0.9em;
     margin-top: -0.3rem;
     margin-bottom: 0.5rem;
-    min-height: 18px; /* Para evitar salto de contenido */
+    min-height: 18px;
+    /* Para evitar salto de contenido */
 }
 
 /* CRUD.php */
@@ -507,6 +508,8 @@ tbody td:last-child {
 }
 
 
+
+
 @media (max-width: 600px) {
     .container {
         padding: 0;
@@ -519,4 +522,331 @@ tbody td:last-child {
     .logo_col .logo {
         max-width: 200px;
     }
+}
+
+.admin-content {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.user-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+}
+
+.form-group-main.full-width {
+    width: 100%;
+    flex: 100%;
+}
+
+.form-group-main label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.form-group-main input,
+.form-group-main select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f9f9f9;
+}
+
+.form-group-main input:focus,
+.form-group-main select:focus {
+    border-color: #004791;
+    box-shadow: 0 0 0 3px rgba(0, 71, 145, 0.1);
+    outline: none;
+    background-color: #fff;
+}
+
+.form-group-main input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #777;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.save-main-btn,
+.cancel-main-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.save-main-btn {
+    background-color: #004791;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 71, 145, 0.2);
+}
+
+.save-main-btn:hover {
+    background-color: #003a74;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 71, 145, 0.25);
+}
+
+.cancel-main-btn {
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.cancel-main-btn:hover {
+    .container {
+        max-width: 100%;
+        padding: 0 1rem;
+        height: auto;
+    }
+
+    .logo_btns_row {
+        flex-direction: column;
+        min-height: 0;
+        border-radius: 16px;
+        align-items: center;
+    }
+
+    .logo_col {
+        width: 100%;
+        min-height: 120px;
+        padding: 2rem 0 1rem 0;
+        background: #e9ecef;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo_col .logo {
+        max-width: 300px;
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .btns_col {
+        width: 100%;
+        padding: 2rem 1rem;
+        border-radius: 0 0 16px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btns_col form {
+        max-width: 95%;
+    }
+}
+
+
+
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0;
+    }
+
+    .btns_col form {
+        padding: 1.2rem 0.5rem;
+    }
+
+    .logo_col .logo {
+        max-width: 200px;
+    }
+}
+
+.admin-content {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.user-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+}
+
+.form-group-main.full-width {
+    width: 100%;
+    flex: 100%;
+}
+
+.form-group-main label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.form-group-main input,
+.form-group-main select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f9f9f9;
+}
+
+.form-group-main input:focus,
+.form-group-main select:focus {
+    border-color: #004791;
+    box-shadow: 0 0 0 3px rgba(0, 71, 145, 0.1);
+    outline: none;
+    background-color: #fff;
+}
+
+.form-group-main input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #777;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.save-main-btn,
+.cancel-main-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.save-main-btn {
+    background-color: #004791;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 71, 145, 0.2);
+}
+
+.save-main-btn:hover {
+    background-color: #003a74;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 71, 145, 0.25);
+}
+
+.cancel-main-btn {
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.cancel-main-btn:hover {
+    background-color: #f8f9fa;
+    color: #333;
+    border-color: #ccc;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .button-container {
+        flex-direction: column-reverse;
+    }
+
+    .save-main-btn,
+    .cancel-main-btn {
+        width: 100%;
+    }
+}
+
+/* Utility Classes */
+.section-divider {
+    margin: 30px 0;
+    border: none;
+    height: 1px;
+    background: #ddd;
+}
+
+.highlight-text {
+    font-weight: 600;
+    color: #004791;
+    font-size: 1.1rem;
 }

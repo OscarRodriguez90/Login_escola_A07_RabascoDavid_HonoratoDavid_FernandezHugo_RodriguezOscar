@@ -37,7 +37,7 @@ if (isset($_GET['id'])) {
         $conn->commit();
 
         // Redirigir de vuelta al CRUD
-        header("Location: home.php?msg=deleted");
+        header("Location: ../pages/home.php?msg=deleted");
         exit();
 
     } catch (Exception $e) {
@@ -47,7 +47,7 @@ if (isset($_GET['id'])) {
     }
 } else {
     // Si no hay ID, volver al CRUD
-    header("Location: home.php");
+    header("Location: ../pages/home.php");
     exit();
 }
 ?>

@@ -4,60 +4,19 @@
     <meta charset="UTF-8">
     <title>Notes Mitjanes</title>
     <link rel="stylesheet" href="../styles/styles.css">
-
-    <style>
-        /* --- ESTILOS EXTRA MÍNIMOS --- */
-
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        thead {
-            background: #f0f0f0;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            font-size: 0.95rem;
-        }
-
-        th {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .section-divider {
-            margin: 30px 0;
-            border: none;
-            height: 1px;
-            background: #ddd;
-        }
-
-        .highlight-text {
-            font-weight: 600;
-            color: #004791;
-            font-size: 1.1rem;
-        }
-    </style>
 </head>
 
 <body id="home_body">
 
 <header class="main_header">
-    <img src="../img/logo.png" class="logo_img" alt="Logo">
+    <img src="../img/logo1.png" class="logo_img" alt="Logo">
     <div class="user_info">
         <span class="username">Administrador</span>
     </div>
-    <a href="../index.php" class="logout_btn" style="text-decoration: none;">Tancar Sessió</a>
+    <div style="display: flex; gap: 10px;">
+        <a href="home.php" class="logout_btn" style="text-decoration: none;">Volver</a>
+        <a href="../index.php" class="logout_btn" style="text-decoration: none;">Tancar Sessió</a>
+    </div>
 </header>
 
 <main>
@@ -123,9 +82,9 @@
             <!-- MITJANES PER ASSIGNATURA -->
             <div class="form-group-main full-width">
                 <h3>Mitjanes per Assignatura</h3>
-                <div class="table-container">
+                <div class="table_responsive_container">
                     <table>
-                        <thead>
+                        <thead class="thead">
                             <tr>
                                 <th>Assignatura</th>
                                 <th>Nota Mitjana</th>
@@ -167,9 +126,9 @@
             <!-- TOP 3 ALUMNES -->
             <div class="form-group-main full-width">
                 <h3>Top 3 Alumnes (Mitjana Global)</h3>
-                <div class="table-container">
+                <div class="table_responsive_container">
                     <table>
-                        <thead>
+                        <thead class="thead">
                             <tr>
                                 <th>Posició</th>
                                 <th>Alumne</th>
@@ -205,9 +164,9 @@
             <!-- MILLORS ALUMNES PER ASSIGNATURA -->
             <div class="form-group-main full-width">
                 <h3>Millors Alumnes per Assignatura</h3>
-                <div class="table-container">
+                <div class="table_responsive_container">
                     <table>
-                        <thead>
+                        <thead class="thead">
                             <tr>
                                 <th>Assignatura</th>
                                 <th>Alumne</th>
