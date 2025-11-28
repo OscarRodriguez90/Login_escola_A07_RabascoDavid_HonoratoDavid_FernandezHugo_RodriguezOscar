@@ -117,6 +117,7 @@ try {
                     <input class="search_input" type="search" name="query" placeholder="Buscar" aria-label="Buscar" value="<?= htmlspecialchars($busqueda) ?>">
                     <button class="search_btn" type="submit">Buscar</button>
                     <a class="button_c clear_btn" href="./home.php">Limpiar</a>
+                    <a href="../pages/notes_mitjanes.php" class="edit_btn">Notas medianas alumnos</a>
                     <br>
 
                 </form>
@@ -170,8 +171,8 @@ try {
                         <td><?= htmlspecialchars($columna['grupo'] ?? '') ?></td>
                         <td><?= htmlspecialchars($columna['año_academico'] ?? '') ?></td>
                         <td>
-                            <button class="delete_btn">Eliminar</button>  
-                            <button class="edit_btn">Editar</button>  
+                            <a href="../processes/eliminar.php?id=<?= $columna['id'] ?>" class="delete_btn">Eliminar</a>
+                            <a href="form_users.php?id=<?= $columna['id'] ?>" class="edit_btn">Editar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
