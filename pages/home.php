@@ -1,7 +1,5 @@
 <?php
-
 require_once './../db/conexion.php';
-
 
 try {
     // --- LÓGICA DE ORDENACIÓN ---
@@ -18,16 +16,16 @@ try {
     if (isset($_POST['año_desc'])) $order = "matriculas.año_academico DESC";
 
     // --- MANEJO DE LA BÚSQUEDA ---
-    // Usamos el parámetro 'query' de REQUEST para capturar la búsqueda sin importar si se envió por GET o POST
     $busqueda = $_REQUEST['query'] ?? ''; 
 
-    // Prepara los parámetros de consulta para la tabla (GET)
-    $query_params = !empty($busqueda) ? "&query=" . urlencode($busqueda) : "";
-    
+    // --- PAGINACIÓN ---
+    $limit = $_GET['limit'] ?? 10;
+    $pagina = $_GET['pagina'] ?? 1;
+    $offset = ($pagina - 1) * $limit;
+
     $resultados = [];
     $consulta = null;
     $total_registros_filtrados = 0;
-
 
     if (!empty($busqueda)) {
         // Consulta con FILTRO
@@ -47,8 +45,13 @@ try {
                 matriculas.año_academico LIKE :busqueda
             )
             ORDER BY $order
+            LIMIT :limit OFFSET :offset
         ");
-        $consulta->execute([':busqueda' => '%' . $busqueda . '%']);
+
+        $consulta->bindValue(':busqueda', '%' . $busqueda . '%');
+        $consulta->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $consulta->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $consulta->execute();
         $resultados = $consulta->fetchAll();
 
         // Contar registros filtrados
@@ -72,7 +75,7 @@ try {
         $total_registros_filtrados = $contador_filtro->fetchColumn();
     } else {
         // Consulta SIN FILTRO
-        $consulta = $conn->query("
+        $consulta = $conn->prepare("
             SELECT usuarios.id, usuarios.usuario, usuarios.nombre, usuarios.apellidos, usuarios.email, grupos.nombre AS grupo, matriculas.año_academico
             FROM usuarios
             INNER JOIN roles ON usuarios.rol_id = roles.id
@@ -80,13 +83,21 @@ try {
             LEFT JOIN grupos ON matriculas.grupo_id = grupos.id
             WHERE roles.nombre = 'alumno'
             ORDER BY $order
+            LIMIT :limit OFFSET :offset
         ");
+
+        $consulta->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $consulta->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $consulta->execute();
         $resultados = $consulta->fetchAll();
     }
-    
-    // Contar el total de registros (sin filtro)
+
+    // Contar total general
     $consulta_total = $conn->query("SELECT COUNT(*) FROM usuarios INNER JOIN roles ON usuarios.rol_id = roles.id WHERE roles.nombre = 'alumno'");
     $registros_totales = $consulta_total->fetchColumn();
+
+    // Total páginas
+    $total_paginas = ceil(($busqueda ? $total_registros_filtrados : $registros_totales) / $limit);
 
 } catch (PDOException $e) {
     echo "<div style='color:red;'>¡Error en la consulta!<br>" . $e->getMessage() . "</div>";
@@ -103,38 +114,35 @@ try {
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body class="CRUD">
-    <!-- Header Fijo -->
     <header class="main_header">
         <img class="logo_img" src="../img/logo1.png" alt="Logo">
     </header>
     
     <div class="contenedor">
         <div class="header_crud_row">
-            
             <div class="create_button"> 
-                <form class="search_form_flex" role="search" method="GET" action="">
-
-                    <input class="search_input" type="search" name="query" placeholder="Buscar" aria-label="Buscar" value="<?= htmlspecialchars($busqueda) ?>">
+                <form class="search_form_flex" method="GET" action="">
+                    <input class="search_input" type="search" name="query" placeholder="Buscar" value="<?= htmlspecialchars($busqueda) ?>">
                     <button class="search_btn" type="submit">Buscar</button>
                     <a class="button_c clear_btn" href="./home.php">Limpiar</a>
                     <a href="../pages/notes_mitjanes.php" class="edit_btn">Notas medianas alumnos</a>
-                    <br>
-
                 </form>
             </div>
 
+            <!-- SELECTOR DE ALUMNOS POR PÁGINA -->
+            <form method="GET">
+                <label>Mostrar:</label>
+                <select name="limit" onchange="this.form.submit()">
+                    <?php foreach ([5,10,20,50] as $opt): ?>
+                    <option value="<?= $opt ?>" <?= ($limit == $opt ? 'selected' : '') ?>><?= $opt ?></option>
+                    <?php endforeach; ?>
+                </select> alumnos
+                <input type="hidden" name="query" value="<?= htmlspecialchars($busqueda) ?>">
+            </form>
+
             <div class="cambiar_añadir">
                 <a class="button_c create_btn" href="./form_crear.php">Añadir Alumno</a>
-                
-                <?php
-
-                    if (!empty($busqueda)) {
-                        echo "<h3>Total de registros: $total_registros_filtrados</h3>";
-                    } else {
-                        echo "<h3>Total de registros: $registros_totales</h3>";
-                    }
-
-                ?>
+                <h3>Total registros: <?= $busqueda ? $total_registros_filtrados : $registros_totales ?></h3>
             </div>
         </div>
     </div>
@@ -143,7 +151,7 @@ try {
         <table>
             <thead class="thead">
                 <tr>
-                    <form method="POST" action="?query=<?= urlencode($busqueda) ?>">
+                    <form method="POST" action="?query=<?= urlencode($busqueda) ?>&limit=<?= $limit ?>">
                         <th><input type="submit" value="⬆" name="usuario_asc">Usuario<input type="submit" value="⬇" name="usuario_desc"></th>
                         <th><input type="submit" value="⬆" name="nombre_asc">Nombre<input type="submit" value="⬇" name="nombre_desc"></th>
                         <th>Apellidos</th>
@@ -179,5 +187,13 @@ try {
             </tbody>
         </table>
     </div>
+
+    <!-- PAGINACIÓN -->
+    <div style="text-align:center; margin-top:15px;">
+        <a href="?pagina=<?= max(1, $pagina - 1) ?>&limit=<?= $limit ?>&query=<?= urlencode($busqueda) ?>">⬅ Anterior</a>
+        <strong> Página <?= $pagina ?> / <?= $total_paginas ?> </strong>
+        <a href="?pagina=<?= min($total_paginas, $pagina + 1) ?>&limit=<?= $limit ?>&query=<?= urlencode($busqueda) ?>">Siguiente ➡</a>
+    </div>
+
 </body>
 </html>
