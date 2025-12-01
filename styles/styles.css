@@ -959,3 +959,24 @@ input[type="submit"] {
         width: 100%;
     }
 }
+/* Reducir tamaño de letra de la tabla en móviles */
+@media (max-width: 600px) {
+    table td,
+    table th {
+        font-size: 0.75rem !important; /* Ajusta a tu gusto */
+        padding: 10px 12px !important; /* Más compacto */
+    }
+
+    /* Botones dentro de la tabla */
+    tbody td:last-child button,
+    tbody td:last-child a {
+        font-size: 0.75rem !important;
+        padding: 6px 8px !important;
+    }
+
+    /* Texto de encabezados */
+    .thead th {
+        font-size: 0.70rem !important;
+        letter-spacing: 0.3px !important;
+    }
+}
