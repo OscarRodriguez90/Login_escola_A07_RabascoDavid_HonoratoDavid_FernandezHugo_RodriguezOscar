@@ -9,9 +9,9 @@ if (!isset($_GET['id-usuario']) || !is_numeric($_GET['id-usuario'])) {
 }
 $id = (int)$_GET['id-usuario'];
 
-// Obtener datos del alumno
+// Obtener datos del alumno y su matrícula
 $stmt = $conn->prepare('
-    SELECT usuarios.id, usuarios.usuario, usuarios.nombre, usuarios.apellidos, usuarios.email, grupos.nombre AS grupo, matriculas.año_academico
+    SELECT usuarios.id, usuarios.usuario, usuarios.nombre, usuarios.apellidos, usuarios.email, grupos.nombre AS grupo, matriculas.año_academico, matriculas.id AS matricula_id
     FROM usuarios
     INNER JOIN roles ON usuarios.rol_id = roles.id
     LEFT JOIN matriculas ON usuarios.id = matriculas.usuario_id
@@ -27,24 +27,37 @@ if (!$alumno) {
     exit;
 }
 
-// Procesar formulario de notas
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $calificacion = isset($_POST['calificacion']) ? floatval($_POST['calificacion']) : null;
-    if ($calificacion !== null) {
-        // Guardar calificación en la base de datos (ejemplo: tabla notas)
-        // NOTA: Aquí deberías especificar matricula_id, asignatura_id y evaluacion_id correctamente
-        // Esto es solo un ejemplo genérico:
-        $stmtNota = $conn->prepare('INSERT INTO notas (matricula_id, asignatura_id, evaluacion_id, calificacion) VALUES (:matricula_id, :asignatura_id, :evaluacion_id, :calificacion) ON DUPLICATE KEY UPDATE calificacion = :calificacion');
-        // Debes obtener estos IDs de alguna manera, aquí se ponen valores de ejemplo:
-        $stmtNota->execute([':matricula_id' => 1, ':asignatura_id' => 1, ':evaluacion_id' => 1, ':calificacion' => $calificacion]);
-        echo '<p>Calificación guardada correctamente.</p>';
+$matricula_id = $alumno['matricula_id'];
+// Puedes ajustar asignatura_id y evaluacion_id según tu lógica o añadir selectores
+$asignatura_id = 1;
+$evaluacion_id = 1;
+
+// Procesar formulario de notas (varias asignaturas)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $matricula_id) {
+    if (isset($_POST['notas']) && is_array($_POST['notas'])) {
+        foreach ($_POST['notas'] as $asignatura_id => $calificacion) {
+            $calificacion = ($calificacion !== '') ? floatval($calificacion) : null;
+            if ($calificacion !== null) {
+                $stmtNota = $conn->prepare('INSERT INTO notas (matricula_id, asignatura_id, evaluacion_id, calificacion) VALUES (:matricula_id, :asignatura_id, 1, :calificacion) ON DUPLICATE KEY UPDATE calificacion = :calificacion');
+                $stmtNota->execute([':matricula_id' => $matricula_id, ':asignatura_id' => $asignatura_id, ':calificacion' => $calificacion]);
+            }
+        }
+        echo '<p>Calificaciones guardadas correctamente.</p>';
     }
 }
 
-// Obtener calificación actual (si existe)
-$stmtNota = $conn->prepare('SELECT calificacion FROM notas WHERE matricula_id = 1 AND asignatura_id = 1 AND evaluacion_id = 1');
-$stmtNota->execute();
-$calificacionActual = $stmtNota->fetchColumn();
+// Obtener todas las asignaturas y notas del alumno
+$notas = [];
+if ($matricula_id) {
+    $stmtNotas = $conn->prepare('
+        SELECT a.id AS asignatura_id, a.nombre AS asignatura, n.calificacion
+        FROM asignaturas a
+        LEFT JOIN notas n ON n.asignatura_id = a.id AND n.matricula_id = :matricula_id AND n.evaluacion_id = 1
+        ORDER BY a.nombre ASC
+    ');
+    $stmtNotas->execute([':matricula_id' => $matricula_id]);
+    $notas = $stmtNotas->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -63,11 +76,24 @@ $calificacionActual = $stmtNota->fetchColumn();
         <li><strong>Grupo:</strong> <?= htmlspecialchars($alumno['grupo'] ?? '') ?></li>
         <li><strong>Año académico:</strong> <?= htmlspecialchars($alumno['año_academico'] ?? '') ?></li>
     </ul>
-    <h2>Nota</h2>
+    <h2>Notas del alumno</h2>
     <form method="post">
-        <label for="calificacion">Nota:</label>
-        <input type="number" step="0.01" name="calificacion" id="calificacion" value="<?= htmlspecialchars($calificacionActual ?? '') ?>">
-        <button type="submit">Guardar Nota</button>
+        <table border="1" cellpadding="5" style="border-collapse:collapse;">
+            <tr>
+                <th>Asignatura</th>
+                <th>Nota</th>
+            </tr>
+            <?php foreach ($notas as $nota): ?>
+                <tr>
+                    <td><?= htmlspecialchars($nota['asignatura']) ?></td>
+                    <td>
+                        <input type="number" step="0.01" name="notas[<?= $nota['asignatura_id'] ?>]" value="<?= htmlspecialchars($nota['calificacion'] ?? '') ?>">
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+        <br>
+        <button type="submit">Guardar Notas</button>
     </form>
     <br>
     <a href="home.php">Volver a la lista de alumnos</a>
