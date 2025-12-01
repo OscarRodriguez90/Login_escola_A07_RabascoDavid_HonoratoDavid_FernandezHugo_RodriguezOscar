@@ -1,4 +1,11 @@
-html, body {
+
+/* IMPORTAR FUENTE MODERNA */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+
+html,
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -29,7 +36,7 @@ html, body {
     justify-content: center;
     width: 100%;
     min-height: 500px;
-    box-shadow: 0 40px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.08);
     background: #fff;
     border-radius: 24px;
     overflow: hidden;
@@ -69,7 +76,7 @@ html, body {
     background: #f8f9fa;
     padding: 2rem 1.5rem 1.5rem 1.5rem;
     border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
 }
 
 .btns_col label {
@@ -136,7 +143,7 @@ html, body {
     padding: 10px 20px;
     color: #333;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    height: 60px; 
+    height: 60px;
 }
 
 .logo_img {
@@ -156,7 +163,7 @@ html, body {
 
 .logout_btn {
     background-color: #e0e0e0;
-    color: #333; 
+    color: #333;
     border: none;
     padding: 10px 18px;
     border-radius: 20px;
@@ -175,7 +182,8 @@ main {
 }
 
 .CRUD {
-    background-color: #f4f6fa; /* Fondo claro del instituto */
+    background-color: #f4f6fa;
+    /* Fondo claro del instituto */
     /* No necesita padding-top aquí, ya que el header es fijo */
 }
 
@@ -184,7 +192,8 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    margin-top: 10px; /* Espacio para el header fijo */
+    margin-top: 10px;
+    /* Espacio para el header fijo */
 }
 
 /* Fila superior para Búsqueda y Creación */
@@ -192,7 +201,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     padding: 20px 0;
 }
 
@@ -202,7 +211,8 @@ main {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    min-width: 300px; /* Ancho mínimo para que se mantenga en una fila */
+    min-width: 300px;
+    /* Ancho mínimo para que se mantenga en una fila */
 }
 
 .create_button nav {
@@ -219,7 +229,7 @@ main {
 
 /* Reemplaza la clase .form-control de Bootstrap */
 .search_input {
-    flex-grow: 1; 
+    flex-grow: 1;
     border-radius: 8px;
     border: 1px solid #ccc;
     padding: 8px 12px;
@@ -230,7 +240,7 @@ main {
 .search_btn {
     /* Botón Buscar */
     color: white;
-    background-color: #004791; 
+    background-color: #004791;
     border: 1px solid #004791;
     padding: 8px 15px;
     border-radius: 8px;
@@ -257,20 +267,24 @@ main {
     border-radius: 8px;
     font-weight: 500;
     transition: background-color 0.2s;
-    border: 1px solid transparent; /* Para evitar CLS al cambiar colores */
+    border: 1px solid transparent;
+    /* Para evitar CLS al cambiar colores */
 }
 
 .cambiar_añadir .create_btn {
-    background-color: #28a745; /* Verde */
+    background-color: #28a745;
+    /* Verde */
     color: white;
 }
 
-.cambiar_añadir .change_role_btn { /* Corregido de change_role-btn a change_role_btn (guion bajo) */
+.cambiar_añadir .change_role_btn {
+    /* Corregido de change_role-btn a change_role_btn (guion bajo) */
     background-color: #004791;
     color: white;
 }
 
-.cambiar_añadir .change_role_btn:hover { /* Corregido de change_role-btn a change_role_btn (guion bajo) */
+.cambiar_añadir .change_role_btn:hover {
+    /* Corregido de change_role-btn a change_role_btn (guion bajo) */
     background-color: #003a74;
 }
 
@@ -288,7 +302,7 @@ main {
 /* Estilos de la Cruz (+ / Añadir) */
 .image_container {
     position: relative;
-    width: 32px; 
+    width: 32px;
     height: 32px;
 }
 
@@ -302,15 +316,15 @@ main {
 }
 
 .image_container .image_hover {
-    opacity: 0; 
+    opacity: 0;
 }
 
 .image_container a:hover .image_default {
-    opacity: 0; 
+    opacity: 0;
 }
 
 .image_container a:hover .image_hover {
-    opacity: 1; 
+    opacity: 1;
 }
 
 /* Total de Registros */
@@ -319,7 +333,8 @@ main {
     font-weight: 600;
     color: #333;
     margin: 0;
-    white-space: nowrap; /* Evita que el texto se rompa */
+    white-space: nowrap;
+    /* Evita que el texto se rompa */
 }
 
 
@@ -330,20 +345,23 @@ main {
 
 /* Contenedor de tabla para el CRUD (reemplaza .container en este contexto) */
 .table_responsive_container {
-    padding: 0 0 40px 0; /* Padding inferior */
+    padding: 0 0 40px 0;
+    /* Padding inferior */
     height: auto;
-    display: block; 
-    overflow-x: auto; /* Para tablas que excedan el ancho en móvil */
+    display: block;
+    overflow-x: auto;
+    /* Para tablas que excedan el ancho en móvil */
 }
 
 table {
     width: 100%;
-    min-width: 600px; /* Asegura un ancho mínimo para la tabla */
+    min-width: 600px;
+    /* Asegura un ancho mínimo para la tabla */
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 /* Cabecera de la Tabla (Thead) */
@@ -442,7 +460,8 @@ tbody td:last-child {
     font-size: 0.9em;
     margin-top: -0.3rem;
     margin-bottom: 0.5rem;
-    min-height: 18px; /* Para evitar salto de contenido */
+    min-height: 18px;
+    /* Para evitar salto de contenido */
 }
 
 /* CRUD.php */
@@ -454,12 +473,14 @@ tbody td:last-child {
         padding: 0 1rem;
         height: auto;
     }
+
     .logo_btns_row {
         flex-direction: column;
         min-height: 0;
         border-radius: 16px;
         align-items: center;
     }
+
     .logo_col {
         width: 100%;
         min-height: 120px;
@@ -470,12 +491,14 @@ tbody td:last-child {
         justify-content: center;
         align-items: center;
     }
+
     .logo_col .logo {
         max-width: 300px;
         width: 100%;
         height: auto;
         display: block;
     }
+
     .btns_col {
         width: 100%;
         padding: 2rem 1rem;
@@ -484,20 +507,352 @@ tbody td:last-child {
         justify-content: center;
         align-items: center;
     }
+
     .btns_col form {
         max-width: 95%;
     }
 }
 
 
+
+
 @media (max-width: 600px) {
     .container {
         padding: 0;
     }
+
     .btns_col form {
         padding: 1.2rem 0.5rem;
     }
+
     .logo_col .logo {
         max-width: 200px;
     }
+}
+
+.admin-content {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.user-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+}
+
+.form-group-main.full-width {
+    width: 100%;
+    flex: 100%;
+}
+
+.form-group-main label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.form-group-main input,
+.form-group-main select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f9f9f9;
+}
+
+.form-group-main input:focus,
+.form-group-main select:focus {
+    border-color: #004791;
+    box-shadow: 0 0 0 3px rgba(0, 71, 145, 0.1);
+    outline: none;
+    background-color: #fff;
+}
+
+.form-group-main input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #777;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.save-main-btn,
+.cancel-main-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.save-main-btn {
+    background-color: #004791;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 71, 145, 0.2);
+}
+
+.save-main-btn:hover {
+    background-color: #003a74;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 71, 145, 0.25);
+}
+
+.cancel-main-btn {
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.cancel-main-btn:hover {
+    .container {
+        max-width: 100%;
+        padding: 0 1rem;
+        height: auto;
+    }
+
+    .logo_btns_row {
+        flex-direction: column;
+        min-height: 0;
+        border-radius: 16px;
+        align-items: center;
+    }
+
+    .logo_col {
+        width: 100%;
+        min-height: 120px;
+        padding: 2rem 0 1rem 0;
+        background: #e9ecef;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo_col .logo {
+        max-width: 300px;
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .btns_col {
+        width: 100%;
+        padding: 2rem 1rem;
+        border-radius: 0 0 16px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btns_col form {
+        max-width: 95%;
+    }
+}
+
+
+
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0;
+    }
+
+    .btns_col form {
+        padding: 1.2rem 0.5rem;
+    }
+
+    .logo_col .logo {
+        max-width: 200px;
+    }
+}
+
+.admin-content {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.user-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+}
+
+.form-group-main.full-width {
+    width: 100%;
+    flex: 100%;
+}
+
+.form-group-main label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.form-group-main input,
+.form-group-main select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f9f9f9;
+}
+
+.form-group-main input:focus,
+.form-group-main select:focus {
+    border-color: #004791;
+    box-shadow: 0 0 0 3px rgba(0, 71, 145, 0.1);
+    outline: none;
+    background-color: #fff;
+}
+
+.form-group-main input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    color: #777;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.save-main-btn,
+.cancel-main-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.save-main-btn {
+    background-color: #004791;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 71, 145, 0.2);
+}
+
+.save-main-btn:hover {
+    background-color: #003a74;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 71, 145, 0.25);
+}
+
+.cancel-main-btn {
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.cancel-main-btn:hover {
+    background-color: #f8f9fa;
+    color: #333;
+    border-color: #ccc;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .button-container {
+        flex-direction: column-reverse;
+    }
+
+    .save-main-btn,
+    .cancel-main-btn {
+        width: 100%;
+    }
+}
+
+/* Utility Classes */
+.section-divider {
+    margin: 30px 0;
+    border: none;
+    height: 1px;
+    background: #ddd;
+}
+
+.highlight-text {
+    font-weight: 600;
+    color: #004791;
+    font-size: 1.1rem;
 }
