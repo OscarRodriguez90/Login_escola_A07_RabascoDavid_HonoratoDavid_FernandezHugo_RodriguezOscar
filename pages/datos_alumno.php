@@ -66,36 +66,77 @@ if ($matricula_id) {
     <title>Datos del Alumno</title>
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
-<body>
-    <h1>Datos del Alumno</h1>
-    <ul>
-        <li><strong>Usuario:</strong> <?= htmlspecialchars($alumno['usuario']) ?></li>
-        <li><strong>Nombre:</strong> <?= htmlspecialchars($alumno['nombre']) ?></li>
-        <li><strong>Apellidos:</strong> <?= htmlspecialchars($alumno['apellidos']) ?></li>
-        <li><strong>Email:</strong> <?= htmlspecialchars($alumno['email']) ?></li>
-        <li><strong>Grupo:</strong> <?= htmlspecialchars($alumno['grupo'] ?? '') ?></li>
-        <li><strong>Año académico:</strong> <?= htmlspecialchars($alumno['año_academico'] ?? '') ?></li>
-    </ul>
-    <h2>Notas del alumno</h2>
-    <form method="post">
-        <table border="1" cellpadding="5" style="border-collapse:collapse;">
-            <tr>
-                <th>Asignatura</th>
-                <th>Nota</th>
-            </tr>
-            <?php foreach ($notas as $nota): ?>
-                <tr>
-                    <td><?= htmlspecialchars($nota['asignatura']) ?></td>
-                    <td>
-                        <input type="number" step="0.01" name="notas[<?= $nota['asignatura_id'] ?>]" value="<?= htmlspecialchars($nota['calificacion'] ?? '') ?>">
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-        <br>
-        <button type="submit">Guardar Notas</button>
-    </form>
-    <br>
-    <a href="home.php">Volver a la lista de alumnos</a>
+<body id="home_body">
+    <header class="main_header">
+        <img src="../img/logo.png" alt="Logo" class="logo_img" onerror="this.style.display='none'">
+        <div class="user_info">
+            Datos del Alumno
+        </div>
+        <a href="home.php" class="logout_btn">Volver</a>
+    </header>
+    <main>
+        <div class="contenedor">
+            <div class="admin-content">
+                <h1 class="form-title">Datos del Alumno</h1>
+                <div class="user-edit-form">
+                    <div class="form-row">
+                        <div class="form-group-main">
+                            <label>Usuario</label>
+                            <input type="text" value="<?= htmlspecialchars($alumno['usuario']) ?>" readonly>
+                        </div>
+                        <div class="form-group-main">
+                            <label>Nombre</label>
+                            <input type="text" value="<?= htmlspecialchars($alumno['nombre']) ?>" readonly>
+                        </div>
+                        <div class="form-group-main">
+                            <label>Apellidos</label>
+                            <input type="text" value="<?= htmlspecialchars($alumno['apellidos']) ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group-main">
+                            <label>Email</label>
+                            <input type="text" value="<?= htmlspecialchars($alumno['email']) ?>" readonly>
+                        </div>
+                        <div class="form-group-main">
+                            <label>Grupo</label>
+                            <input type="text" value="<?= htmlspecialchars($alumno['grupo'] ?? '') ?>" readonly>
+                        </div>
+                        <div class="form-group-main">
+                            <label>Año académico</label>
+                            <input type="text" value="<?= htmlspecialchars($alumno['año_academico'] ?? '') ?>" readonly>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="form-title" style="font-size:1.3rem;margin-top:2.5rem;">Notas del alumno</h2>
+                <form method="post">
+                    <div class="table_responsive_container">
+                        <table>
+                            <thead class="thead">
+                                <tr>
+                                    <th>Asignatura</th>
+                                    <th>Nota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($notas as $nota): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($nota['asignatura']) ?></td>
+                                        <td>
+                                            <input type="number" step="0.01" name="notas[<?= $nota['asignatura_id'] ?>]" value="<?= htmlspecialchars($nota['calificacion'] ?? '') ?>" class="search_input">
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="save-main-btn">Guardar Notas</button>
+                        <a href="home.php" class="cancel-main-btn">Volver</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
